@@ -66,3 +66,38 @@ Expected response:
 ```text
 ok
 ```
+
+## Load Balancing Test
+
+Command:
+
+```bash
+for i in {1..20}; do
+  curl -s http://$ALB_DNS | awk -F'[<>]' '/class="value">i-/{print $3}'
+done | sort | uniq -c
+```
+
+Result:
+
+```text
+   6 i-0041fb351f4d31891
+   7 i-02f121d4d79e00783
+   7 i-03768b6cd9c713ae6
+```
+
+This confirms the ALB distributed requests across all three application
+instances.
+
+## Health Check Test
+
+Command:
+
+```bash
+curl http://$ALB_DNS/health
+```
+
+Result:
+
+```text
+ok
+```

@@ -98,7 +98,7 @@ terraform destroy
 6. Test the health endpoint:
 
 ```bash
-curl http://<alb_dns_name>/health
+curl http://app-alb-1196878497.us-east-1.elb.amazonaws.com/health
 ```
 
 Expected response:

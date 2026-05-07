@@ -44,7 +44,7 @@ terraform output alb_dns_name
 3. Test application root endpoint:
 
 ```bash
-curl http://app-alb-1196878497.us-east-1.elb.amazonaws.com/
+curl http://$ALB_DNS
 ```
 
 Expected:
@@ -59,7 +59,7 @@ Expected:
 4. Test health endpoint:
 
 ```bash
-curl http://app-alb-1196878497.us-east-1.elb.amazonaws.com/health
+curl http://$ALB_DNS/health
 ```
 
 Expected:
@@ -67,6 +67,21 @@ Expected:
 ```text
 ok
 ```
+
+5. Test load balancing across app instances:
+
+```bash
+export ALB_DNS=app-alb-1196878497.us-east-1.elb.amazonaws.com
+
+for i in {1..20}; do
+  curl -s http://$ALB_DNS | awk -F'[<>]' '/class="value">i-/{print $3}'
+done | sort | uniq -c
+```
+
+Expected:
+
+- Responses should come from more than one app instance.
+- A healthy result should show all three app instance IDs over repeated requests.
 
 ## AWS Console Checks
 
