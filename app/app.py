@@ -108,10 +108,6 @@ def page():
   <main>
     <header>
       <h1>App</h1>
-      <p>
-        This response came from a private EC2 instance behind the load balancer.
-        The instance is not directly reachable from the internet.
-      </p>
     </header>
     <section class="grid">
       <div class="card">
