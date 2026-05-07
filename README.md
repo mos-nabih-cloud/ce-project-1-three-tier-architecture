@@ -52,6 +52,84 @@ Diagrams are stored in [architecture/](architecture/).
 
 ![Traffic flow diagram](architecture/traffic-flow-diagram.png)
 
+## Screenshots
+
+### Browser App Page
+
+![Browser app page](screenshots/01--browser.png)
+
+---
+
+### EC2 Instances Running
+
+![EC2 instances running](screenshots/02-instances-running.png)
+
+---
+
+### ALB Across Two AZs
+
+![ALB across two AZs](screenshots/03-alb-2-az.png)
+
+---
+
+### Healthy Target Group
+
+![Healthy target group](screenshots/03-healthy-target-group.png)
+
+---
+
+### Browser Health Endpoint
+
+![Browser health endpoint](screenshots/04-browser-health-endpoint.png)
+
+---
+
+### Load Test Across Three Instances
+
+![Load test across three instances](screenshots/05-load-test-3-instances.png)
+
+---
+
+### Load Test With Two Instances
+
+![Load test with two instances](screenshots/06-load-test-2-instances.png)
+
+---
+
+### Security Groups
+
+![Security groups](screenshots/07-security-groups.png)
+
+---
+
+### ALB Resource Map
+
+![ALB resource map](screenshots/08-alb-resource-map.png)
+
+---
+
+### NAT Gateway
+
+![NAT Gateway](screenshots/09-nat-gateway.png)
+
+---
+
+### Application Route Table
+
+![Application route table](screenshots/10-route-table-app.png)
+
+---
+
+### Subnets
+
+![Subnets](screenshots/11-subnets.png)
+
+---
+
+### Internet Gateway
+
+![Internet Gateway](screenshots/12-internet-gateway.png)
+
 ## How to Deploy
 
 From the project root:
@@ -74,7 +152,7 @@ terraform output alb_dns_name
 Open the application:
 
 ```text
-http://app-alb-1196878497.us-east-1.elb.amazonaws.com
+http://app-alb-xxx.us-east-1.elb.amazonaws.com
 ```
 
 Destroy the environment after testing:
@@ -98,7 +176,7 @@ terraform destroy
 6. Test the health endpoint:
 
 ```bash
-curl http://app-alb-1196878497.us-east-1.elb.amazonaws.com/health
+curl http://$ALB_DNS/health
 ```
 
 Expected response:
@@ -108,22 +186,6 @@ ok
 ```
 
 Additional testing documentation is in [tests/](tests/).
-
-## Project Structure
-
-```text
-.
-├── ARCHITECTURE.md
-├── COSTS.md
-├── IMPROVEMENTS.md
-├── README.md
-├── SECURITY.md
-├── app/
-├── architecture/
-├── config/
-├── terraform/
-└── tests/
-```
 
 ## Notes
 
