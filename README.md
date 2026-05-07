@@ -1,47 +1,60 @@
-# Three-Tier Architecture on AWS
+# Three Tier Architecture on AWS
 
-Terraform project for a simple three-tier AWS architecture.
+This project provisions a three tier AWS architecture using Terraform.
+It is designed to focuses on clear network separation, least privilege security groups, and repeatable deployment.
 
-## Project Structure
+The stack includes:
 
-```text
-.
-├── terraform/
-│   ├── alb.tf
-│   ├── compute.tf
-│   ├── networking.tf
-│   ├── outputs.tf
-│   ├── provider.tf
-│   ├── security-groups.tf
-│   ├── variables.tf
-│   └── scripts/
-│       ├── app-user-data.sh
-│       └── database-user-data.sh
-└── README.md
-```
+- Presentation tier: internet facing Application Load Balancer
+- Application tier: private EC2 instances running a small status web application
+- Data tier: isolated private EC2 database placeholder
+- Network foundation: VPC, six subnets, route tables, Internet Gateway, and NAT Gateway
 
-Terraform files live in `terraform/`. Run Terraform commands from that directory.
+## Architecture Description
 
-## Current Scope
+The architecture uses one VPC named `three-tier-vpc` with CIDR block
+`10.0.0.0/16`. It spans two Availability Zones: `us-east-1a` and `us-east-1b`.
 
-The first milestone provisions the network foundation:
+Each tier has dedicated subnets:
 
-- One VPC with a `/16` CIDR block
-- Two public subnets for the presentation tier in `us-east-1a` and `us-east-1b`
-- Two private subnets for the application tier in `us-east-1a` and `us-east-1b`
-- Two private subnets for the data tier in `us-east-1a` and `us-east-1b`
-- Internet Gateway for public internet access
-- One NAT Gateway for outbound access from the application tier
-- Route tables for public, application-private, and data-private subnets
-- Security groups for the presentation, application, and data tiers
-- Internet-facing Application Load Balancer in the public subnets
-- HTTP listener on port `80`
-- Target group with `/health` health check
-- Three private EC2 instances running a simple web application
-- Application target group attachments for the private EC2 instances
-- One private EC2 instance as a database placeholder in the data tier
+- Public subnets for the load balancer
+- Private application subnets for EC2 app instances
+- Private data subnets for the database placeholder
 
-## Usage
+Traffic enters through the Application Load Balancer on port `80`. The ALB
+forwards requests to private application instances. Application instances can
+connect to the data tier on port `5432`. The data tier has no default route to
+the internet.
+
+Diagrams are stored in [architecture/](architecture/).
+
+## Diagrams
+
+### Main Architecture
+
+![Main architecture diagram](architecture/architecture-diagram.png)
+
+---
+
+### Network
+
+![Network diagram](architecture/network-diagram.png)
+
+---
+
+### Security Groups
+
+![Security groups diagram](architecture/security-groups-diagram.png)
+
+---
+
+### Traffic Flow
+
+![Traffic flow diagram](architecture/traffic-flow-diagram.png)
+
+## How to Deploy
+
+From the project root:
 
 ```bash
 cd terraform
@@ -49,21 +62,71 @@ terraform init
 terraform fmt
 terraform validate
 terraform plan
+terraform apply
 ```
 
-## Design Notes
+After deployment, get the load balancer DNS name:
 
-This project starts with a single NAT Gateway to keep cost and complexity low. The data tier route table intentionally has no default internet route, keeping the database subnet isolated.
+```bash
+terraform output alb_dns_name
+```
 
-The security group rules follow least privilege:
+Open the application:
 
-- ALB allows public HTTP and HTTPS.
-- Application instances allow HTTP and HTTPS only from the ALB security group.
-- Data tier allows database traffic only from the application security group.
+```text
+http://app-alb-1196878497.us-east-1.elb.amazonaws.com
+```
 
-The application instances expose:
+Destroy the environment after testing:
 
-- `/health` for the ALB health check
-- `/` with instance ID, Availability Zone, database status, and health check path
+```bash
+terraform destroy
+```
 
-The data tier uses an EC2-based TCP listener as a database placeholder. It is deployed in a data private subnet and only accepts database-port traffic from the application security group.
+## Testing Instructions
+
+1. Run `terraform validate`.
+2. Run `terraform plan` and confirm the expected resources are created.
+3. Run `terraform apply`.
+4. Open the ALB DNS name in a browser.
+5. Confirm the response includes:
+   - instance ID
+   - private IP address
+   - Availability Zone
+   - database connection status
+   - health check path
+6. Test the health endpoint:
+
+```bash
+curl http://<alb_dns_name>/health
+```
+
+Expected response:
+
+```text
+ok
+```
+
+Additional testing documentation is in [tests/](tests/).
+
+## Project Structure
+
+```text
+.
+├── ARCHITECTURE.md
+├── COSTS.md
+├── IMPROVEMENTS.md
+├── README.md
+├── SECURITY.md
+├── app/
+├── architecture/
+├── config/
+├── terraform/
+└── tests/
+```
+
+## Notes
+
+This project uses a single NAT Gateway for simplicity and cost control. In a
+production architecture, one NAT Gateway per Availability Zone is usually better
+for high availability, but it costs more.

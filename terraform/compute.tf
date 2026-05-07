@@ -61,6 +61,7 @@ resource "aws_instance" "database" {
   })
 
   metadata_options {
+    # Enforce IMDSv2 for enhanced security by requiring session tokens and disabling the endpoint for older versions of IMDS.
     http_endpoint = "enabled"
     http_tokens   = "required"
   }
