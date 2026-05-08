@@ -206,7 +206,7 @@
   </section>
 
   <section class="slide">
-    <h2>Presentation Plan</h2>
+    <h2>Agenda</h2>
     <div class="grid-3">
       <div class="card"><h3>Architecture</h3><p>Diagram, tier purpose, traffic flow, design choices.</p></div>
       <div class="card"><h3>Live Demo</h3><p>ALB URL, instance rotation, health endpoint, isolation test.</p></div>
@@ -215,13 +215,11 @@
       <div class="card"><h3>Next Steps</h3><p>Production improvements, scale, limitations.</p></div>
       <div class="card"><h3>Q&amp;A</h3></div>
     </div>
-    <div class="footer"><span>Overview</span><span>25 minute presentation</span></div>
   </section>
 
   <section class="slide">
     <h2>Architecture Overview</h2>
     <img class="wide-diagram" src="../architecture/architecture-diagram.png" alt="Architecture diagram">
-    <div class="footer"><span>Architecture Overview</span><span>Public, app, and data tiers</span></div>
   </section>
 
   <section class="slide">
@@ -255,7 +253,38 @@
         </ul>
       </div>
     </div>
-    <div class="footer"><span>Architecture Overview</span><span>Tier purpose</span></div>
+  </section>
+
+  <section class="slide">
+    <h2>Network</h2>
+    <div class="grid">
+      <img class="diagram" src="../architecture/network-diagram.png" alt="Network diagram">
+      <div class="card">
+        <h3>Network Layout</h3>
+        <ul>
+          <li>One VPC with CIDR block <code>10.0.0.0/16</code>.</li>
+          <li>Two Availability Zones: <code>us-east-1a</code> and <code>us-east-1b</code>.</li>
+          <li>Each AZ has public, app private, and data private subnets.</li>
+          <li>App private subnets use NAT Gateway for outbound internet access.</li>
+          <li>Data private subnets use local VPC routing only.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <h2>Security Groups</h2>
+    <img class="wide-diagram" style="height:4.6in;" src="../architecture/security-groups-diagram.png" alt="Security groups diagram">
+    <div class="card" style="margin-top:0.25in;">
+        <h3>Security Boundaries</h3>
+        <ul>
+          <li>ALB security group allows HTTP and HTTPS from the internet.</li>
+          <li>App security group allows traffic only from the ALB security group.</li>
+          <li>Data security group allows port <code>5432</code> only from the app security group.</li>
+          <li>No SSH rule is opened for private instances.</li>
+          <li>The ALB is the only public entry point.</li>
+        </ul>
+    </div>
   </section>
 
   <section class="slide">
@@ -273,7 +302,6 @@
         </ul>
       </div>
     </div>
-    <div class="footer"><span>Architecture Overview</span><span>Traffic path</span></div>
   </section>
 
   <section class="slide">
@@ -298,7 +326,6 @@
         </ul>
       </div>
     </div>
-    <div class="footer"><span>Architecture Overview</span><span>Design choices</span></div>
   </section>
 
   <section class="slide">
@@ -321,7 +348,6 @@ for i in {1..20}; do
   curl -s http://$ALB_DNS | awk -F'[&lt;&gt;]' '/class="value"&gt;i-/{print $3}'
 done | sort | uniq -c</div>
     </div>
-    <div class="footer"><span>Live Demo</span><span>ALB, health check, private access</span></div>
   </section>
 
   <section class="slide">
@@ -345,7 +371,6 @@ After stop:
         <p class="small">The ALB removed the stopped instance and kept serving traffic.</p>
       </div>
     </div>
-    <div class="footer"><span>Live Demo</span><span>Observed behavior</span></div>
   </section>
 
   <section class="slide">
@@ -366,7 +391,6 @@ After stop:
         </ul>
       </div>
     </div>
-    <div class="footer"><span>Challenges</span><span>What I learned</span></div>
   </section>
 
   <section class="slide">
@@ -389,7 +413,6 @@ After stop:
       <div class="card"><div class="big-number">$80-$100</div><p>Planning range with a small buffer for usage based charges.</p></div>
     </div>
     <p class="small" style="margin-top:0.2in">For this demo, the main cost is not traffic. The main fixed cost is the NAT Gateway hourly charge.</p>
-    <div class="footer"><span>Cost Analysis</span><span>Monthly and daily estimate</span></div>
   </section>
 
   <section class="slide">
@@ -414,7 +437,6 @@ After stop:
         </ul>
       </div>
     </div>
-    <div class="footer"><span>Cost Analysis</span><span>Optimization tradeoffs</span></div>
   </section>
 
   <section class="slide">
@@ -441,7 +463,6 @@ After stop:
         </ul>
       </div>
     </div>
-    <div class="footer"><span>Improvements</span><span>Current limitations and next steps</span></div>
   </section>
 
   <section class="slide">
@@ -450,7 +471,6 @@ After stop:
         <h2 style="text-align: center;">Q&amp;A</h2>
       </div>
     </div>
-    <div class="footer"><span>Q&amp;A</span><span>Questions and discussion</span></div>
   </section>
 </body>
 </html>
