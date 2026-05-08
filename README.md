@@ -56,79 +56,79 @@ Diagrams are stored in [architecture/](architecture/).
 
 ### Browser App Page
 
-![Browser app page](screenshots/01--browser.png)
+![Browser app page](presentation/screenshots/01--browser.png)
 
 ---
 
 ### EC2 Instances Running
 
-![EC2 instances running](screenshots/02-instances-running.png)
+![EC2 instances running](presentation/screenshots/02-instances-running.png)
 
 ---
 
 ### ALB Across Two AZs
 
-![ALB across two AZs](screenshots/03-alb-2-az.png)
+![ALB across two AZs](presentation/screenshots/03-alb-2-az.png)
 
 ---
 
 ### Healthy Target Group
 
-![Healthy target group](screenshots/03-healthy-target-group.png)
+![Healthy target group](presentation/screenshots/03-healthy-target-group.png)
 
 ---
 
 ### Browser Health Endpoint
 
-![Browser health endpoint](screenshots/04-browser-health-endpoint.png)
+![Browser health endpoint](presentation/screenshots/04-browser-health-endpoint.png)
 
 ---
 
 ### Load Test Across Three Instances
 
-![Load test across three instances](screenshots/05-load-test-3-instances.png)
+![Load test across three instances](presentation/screenshots/05-load-test-3-instances.png)
 
 ---
 
 ### Load Test With Two Instances
 
-![Load test with two instances](screenshots/06-load-test-2-instances.png)
+![Load test with two instances](presentation/screenshots/06-load-test-2-instances.png)
 
 ---
 
 ### Security Groups
 
-![Security groups](screenshots/07-security-groups.png)
+![Security groups](presentation/screenshots/07-security-groups.png)
 
 ---
 
 ### ALB Resource Map
 
-![ALB resource map](screenshots/08-alb-resource-map.png)
+![ALB resource map](presentation/screenshots/08-alb-resource-map.png)
 
 ---
 
 ### NAT Gateway
 
-![NAT Gateway](screenshots/09-nat-gateway.png)
+![NAT Gateway](presentation/screenshots/09-nat-gateway.png)
 
 ---
 
 ### Application Route Table
 
-![Application route table](screenshots/10-route-table-app.png)
+![Application route table](presentation/screenshots/10-route-table-app.png)
 
 ---
 
 ### Subnets
 
-![Subnets](screenshots/11-subnets.png)
+![Subnets](presentation/screenshots/11-subnets.png)
 
 ---
 
 ### Internet Gateway
 
-![Internet Gateway](screenshots/12-internet-gateway.png)
+![Internet Gateway](presentation/screenshots/12-internet-gateway.png)
 
 ## How to Deploy
 
