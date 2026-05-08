@@ -220,7 +220,7 @@
 
   <section class="slide">
     <h2>Architecture Overview</h2>
-    <img class="wide-diagram" src="architecture/architecture-diagram.png" alt="Architecture diagram">
+    <img class="wide-diagram" src="../architecture/architecture-diagram.png" alt="Architecture diagram">
     <div class="footer"><span>Architecture Overview</span><span>Public, app, and data tiers</span></div>
   </section>
 
@@ -261,7 +261,7 @@
   <section class="slide">
     <h2>Traffic Flow</h2>
     <div class="grid">
-      <img class="diagram" src="architecture/traffic-flow-diagram.png" alt="Traffic flow diagram">
+      <img class="diagram" src="../architecture/traffic-flow-diagram.png" alt="Traffic flow diagram">
       <div class="card">
         <h3>Request Path</h3>
         <ul>
@@ -380,13 +380,15 @@ After stop:
         <tr><td>32 GB gp3 EBS</td><td>$2.56/month</td><td>Before Free Tier</td></tr>
         <tr><td>1 NAT Gateway</td><td>$32.85/month</td><td>Largest fixed cost</td></tr>
         <tr><td>1 Application Load Balancer</td><td>$16.43/month</td><td>Before LCU usage</td></tr>
-        <tr><td>Total</td><td>$80-$100/month</td><td>Low traffic estimate</td></tr>
+        <tr><td>Fixed subtotal</td><td>$82.21/month</td><td>Before traffic based charges</td></tr>
+        <tr><td>Planning range</td><td>$80-$100/month</td><td>Low traffic demo estimate</td></tr>
       </tbody>
     </table>
     <div class="grid" style="margin-top:0.35in">
-      <div class="card"><div class="big-number">$2.75-$3.30</div><p>Estimated daily cost before Free Tier and credits.</p></div>
-      <div class="card"><div class="big-number">$82.21</div><p>Base monthly subtotal before small usage based traffic charges.</p></div>
+      <div class="card"><div class="big-number">$82.21</div><p>Fixed monthly subtotal from EC2, EBS, NAT Gateway hourly, and ALB hourly costs.</p></div>
+      <div class="card"><div class="big-number">$80-$100</div><p>Planning range with a small buffer for usage based charges.</p></div>
     </div>
+    <p class="small" style="margin-top:0.2in">For this demo, the main cost is not traffic. The main fixed cost is the NAT Gateway hourly charge.</p>
     <div class="footer"><span>Cost Analysis</span><span>Monthly and daily estimate</span></div>
   </section>
 
@@ -445,7 +447,7 @@ After stop:
   <section class="slide">
     <div class="grid">
       <div class="card">
-        <h2>Q&amp;A</h2>
+        <h2 style="text-align: center;">Q&amp;A</h2>
       </div>
     </div>
     <div class="footer"><span>Q&amp;A</span><span>Questions and discussion</span></div>

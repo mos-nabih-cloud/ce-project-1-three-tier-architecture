@@ -64,15 +64,24 @@ $30.37 + $2.56 + $32.85 + $16.43
 = $82.21/month
 ```
 
-That subtotal is why the estimate starts around `$80/month`.
+That subtotal is the fixed part of the estimate. These are resources that cost
+money just because they are running, even with almost no traffic:
 
-The upper range allows room for small usage based charges:
+- EC2 instances
+- EBS volumes
+- NAT Gateway hourly charge
+- ALB hourly charge
 
-```text
-NAT data processing
-ALB LCU usage
-Data transfer out
-```
+That is why the estimate starts around `$80/month`.
+
+## Usage Based Costs
+
+The `$80-$100/month` range is a planning estimate. The known fixed subtotal is
+about `$82/month`. The upper end leaves a small buffer for usage based charges
+such as NAT Gateway processing, ALB LCU usage, and data transfer out.
+
+For this demo, the main cost is not traffic. The main fixed cost is the
+NAT Gateway hourly charge.
 
 Daily estimate:
 
