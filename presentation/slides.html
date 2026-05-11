@@ -223,50 +223,17 @@
   </section>
 
   <section class="slide">
-    <h2>Tier Responsibilities</h2>
-    <div class="grid-3">
-      <div class="card">
-        <h3>Presentation Tier</h3>
-        <ul>
-          <li>Internet facing ALB</li>
-          <li>HTTP listener on port 80</li>
-          <li>Health checks on <code>/health</code></li>
-          <li>Public subnets in two AZs</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>Application Tier</h3>
-        <ul>
-          <li>Three private EC2 instances</li>
-          <li>Returns instance ID, private IP, AZ, and DB status</li>
-          <li>Registered in ALB target group</li>
-          <li>Outbound internet through NAT Gateway</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>Data Tier</h3>
-        <ul>
-          <li>Private EC2 database placeholder</li>
-          <li>Listens on port 5432</li>
-          <li>Only app security group can connect</li>
-          <li>No default internet route</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="slide">
-    <h2>Network</h2>
+    <h2>Traffic Flow</h2>
     <div class="grid">
-      <img class="diagram" src="../architecture/network-diagram.png" alt="Network diagram">
+      <img class="diagram" src="../architecture/traffic-flow-diagram.png" alt="Traffic flow diagram">
       <div class="card">
-        <h3>Network Layout</h3>
+        <h3>Request Path</h3>
         <ul>
-          <li>One VPC with CIDR block <code>10.0.0.0/16</code>.</li>
-          <li>Two Availability Zones: <code>us-east-1a</code> and <code>us-east-1b</code>.</li>
-          <li>Each AZ has public, app private, and data private subnets.</li>
-          <li>App private subnets use NAT Gateway for outbound internet access.</li>
-          <li>Data private subnets use local VPC routing only.</li>
+          <li>User sends HTTP request to the ALB DNS name.</li>
+          <li>ALB forwards traffic to a healthy app instance.</li>
+          <li>App reads EC2 metadata for instance ID, private IP, and AZ.</li>
+          <li>App checks connectivity to the database placeholder.</li>
+          <li>Health checks use <code>/health</code> and return <code>ok</code>.</li>
         </ul>
       </div>
     </div>
@@ -284,23 +251,6 @@
           <li>No SSH rule is opened for private instances.</li>
           <li>The ALB is the only public entry point.</li>
         </ul>
-    </div>
-  </section>
-
-  <section class="slide">
-    <h2>Traffic Flow</h2>
-    <div class="grid">
-      <img class="diagram" src="../architecture/traffic-flow-diagram.png" alt="Traffic flow diagram">
-      <div class="card">
-        <h3>Request Path</h3>
-        <ul>
-          <li>User sends HTTP request to the ALB DNS name.</li>
-          <li>ALB forwards traffic to a healthy app instance.</li>
-          <li>App reads EC2 metadata for instance ID, private IP, and AZ.</li>
-          <li>App checks connectivity to the database placeholder.</li>
-          <li>Health checks use <code>/health</code> and return <code>ok</code>.</li>
-        </ul>
-      </div>
     </div>
   </section>
 
